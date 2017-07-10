@@ -214,8 +214,35 @@ public class BPFieldOfActivityAnnotationsPackageImpl extends EPackageImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getBPGood_ActorStep() {
+		return (EReference)bpGoodEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBPMessage() {
 		return bpMessageEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBPMessage_Sender() {
+		return (EReference)bpMessageEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBPMessage_Receiver() {
+		return (EReference)bpMessageEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -232,8 +259,26 @@ public class BPFieldOfActivityAnnotationsPackageImpl extends EPackageImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getBPOrganizationalUnit_AbstractUserAction() {
+		return (EReference)bpOrganizationalUnitEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBPTrainingCourse() {
 		return bpTrainingCourseEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBPTrainingCourse_ActorStep() {
+		return (EReference)bpTrainingCourseEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -299,12 +344,17 @@ public class BPFieldOfActivityAnnotationsPackageImpl extends EPackageImpl implem
 		createEReference(bpUserActionAnnotationEClass, BP_USER_ACTION_ANNOTATION__ANNOTATED_USER_ACTIONS);
 
 		bpGoodEClass = createEClass(BP_GOOD);
+		createEReference(bpGoodEClass, BP_GOOD__ACTOR_STEP);
 
 		bpMessageEClass = createEClass(BP_MESSAGE);
+		createEReference(bpMessageEClass, BP_MESSAGE__SENDER);
+		createEReference(bpMessageEClass, BP_MESSAGE__RECEIVER);
 
 		bpOrganizationalUnitEClass = createEClass(BP_ORGANIZATIONAL_UNIT);
+		createEReference(bpOrganizationalUnitEClass, BP_ORGANIZATIONAL_UNIT__ABSTRACT_USER_ACTION);
 
 		bpTrainingCourseEClass = createEClass(BP_TRAINING_COURSE);
+		createEReference(bpTrainingCourseEClass, BP_TRAINING_COURSE__ACTOR_STEP);
 
 		bpBusinessProcessSpecificationEClass = createEClass(BP_BUSINESS_PROCESS_SPECIFICATION);
 		createEReference(bpBusinessProcessSpecificationEClass, BP_BUSINESS_PROCESS_SPECIFICATION__PARENT);
@@ -377,12 +427,17 @@ public class BPFieldOfActivityAnnotationsPackageImpl extends EPackageImpl implem
 		initEReference(getBPUserActionAnnotation_AnnotatedUserActions(), g1, null, "annotatedUserActions", null, 0, -1, BPUserActionAnnotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(bpGoodEClass, BPGood.class, "BPGood", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getBPGood_ActorStep(), theBpusagemodelPackage.getActorStep(), null, "actorStep", null, 0, 1, BPGood.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(bpMessageEClass, BPMessage.class, "BPMessage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getBPMessage_Sender(), theBpusagemodelPackage.getActorStep(), null, "sender", null, 0, 1, BPMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBPMessage_Receiver(), theBpusagemodelPackage.getActorStep(), null, "receiver", null, 0, 1, BPMessage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(bpOrganizationalUnitEClass, BPOrganizationalUnit.class, "BPOrganizationalUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getBPOrganizationalUnit_AbstractUserAction(), theUsagemodelPackage.getAbstractUserAction(), null, "abstractUserAction", null, 0, 1, BPOrganizationalUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(bpTrainingCourseEClass, BPTrainingCourse.class, "BPTrainingCourse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getBPTrainingCourse_ActorStep(), theBpusagemodelPackage.getActorStep(), null, "actorStep", null, 0, 1, BPTrainingCourse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(bpBusinessProcessSpecificationEClass, BPBusinessProcessSpecification.class, "BPBusinessProcessSpecification", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBPBusinessProcessSpecification_Parent(), this.getBPFieldOfActivityAnnotationsRepository(), this.getBPFieldOfActivityAnnotationsRepository_BusinessProcessSpecification(), "parent", null, 1, 1, BPBusinessProcessSpecification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

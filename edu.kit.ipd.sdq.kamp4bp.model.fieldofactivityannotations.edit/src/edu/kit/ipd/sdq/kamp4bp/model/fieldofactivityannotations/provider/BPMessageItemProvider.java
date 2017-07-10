@@ -3,6 +3,7 @@
 package edu.kit.ipd.sdq.kamp4bp.model.fieldofactivityannotations.provider;
 
 
+import edu.kit.ipd.sdq.kamp4bp.model.fieldofactivityannotations.BPFieldOfActivityAnnotationsPackage;
 import edu.kit.ipd.sdq.kamp4bp.model.fieldofactivityannotations.BPMessage;
 
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 
 /**
@@ -41,8 +43,54 @@ public class BPMessageItemProvider extends BPUserActionAnnotationItemProvider {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addSenderPropertyDescriptor(object);
+			addReceiverPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Sender feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSenderPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_BPMessage_sender_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_BPMessage_sender_feature", "_UI_BPMessage_type"),
+				 BPFieldOfActivityAnnotationsPackage.Literals.BP_MESSAGE__SENDER,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Receiver feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addReceiverPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_BPMessage_receiver_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_BPMessage_receiver_feature", "_UI_BPMessage_type"),
+				 BPFieldOfActivityAnnotationsPackage.Literals.BP_MESSAGE__RECEIVER,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
