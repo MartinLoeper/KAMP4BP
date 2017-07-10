@@ -25,6 +25,8 @@ import de.uhd.ifi.se.pcm.bppcm.organizationenvironmentmodel.DeviceResource;
 import de.uhd.ifi.se.pcm.bppcm.organizationenvironmentmodel.Role;
 import edu.kit.ipd.sdq.kamp.architecture.ArchitectureModelLookup;
 import edu.kit.ipd.sdq.kamp.model.modificationmarks.AbstractModification;
+import edu.kit.ipd.sdq.kamp.ruledsl.support.KampRuleLanguageFacade;
+import edu.kit.ipd.sdq.kamp.ruledsl.support.KampRuleLanguageFacade.KampLanguageService;
 import edu.kit.ipd.sdq.kamp4is.model.modificationmarks.ISModifyDataType;
 import edu.kit.ipd.sdq.kamp4is.model.modificationmarks.ISModifyInterface;
 import edu.kit.ipd.sdq.kamp4is.model.modificationmarks.ISModifySignature;
@@ -41,6 +43,7 @@ import edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.BPModifyActorStep;
 import edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.BPModifyDataObject;
 import edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.BPModifyEntryLevelSystemCall;
 import edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.BPModifyReleaseDeviceResourceAction;
+import edu.kit.ipd.sdq.kamp4bp.ruledsl.support.IRuleProvider;
 
 /**
  * The change propagation analysis of KAMP+IntBIIS
@@ -64,10 +67,23 @@ public class BPChangePropagationAnalysis extends AbstractISChangePropagationAnal
 	
 	@Override
 	public void runChangePropagationAnalysis(BPArchitectureVersion version) {
-		this.prepareAnalysis(version);
-		this.calculateChangePropagationDueToDataDependencies(version);	
-		this.calculateInterfaceAndComponentPropagation(version);
-		this.calculateInterBusinessProcessPropagation(version);
+		// this is the standard behavior if no custom rules are registered
+		boolean runStandardRules = true;
+		
+		try(KampLanguageService<IRuleProvider> languageService = KampRuleLanguageFacade.getInstance("MartinTest1", IRuleProvider.class)) {
+			IRuleProvider provider = languageService.getService();
+			provider.applyAllRules(version, this);
+			runStandardRules = provider.areStandardRulesEnabled();
+		} catch (Exception e) {
+			// should be only thrown if service is not available or bundle could not be installed
+			e.printStackTrace();
+		};
+
+		if(runStandardRules) {
+			this.calculateChangePropagationDueToDataDependencies(version);	
+			this.calculateInterfaceAndComponentPropagation(version);
+			this.calculateInterBusinessProcessPropagation(version);
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
