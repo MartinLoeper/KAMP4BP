@@ -12,21 +12,21 @@ import de.uhd.ifi.se.pcm.bppcm.datamodel.DatamodelFactory;
 import de.uhd.ifi.se.pcm.bppcm.organizationenvironmentmodel.OrganizationEnvironmentModel;
 import de.uhd.ifi.se.pcm.bppcm.organizationenvironmentmodel.OrganizationenvironmentmodelFactory;
 import de.uka.ipd.sdq.componentInternalDependencies.ComponentInternalDependencyRepository;
+import edu.kit.ipd.sdq.kamp4bp.model.fieldofactivityannotations.BPBusinessProcessSpecification;
+import edu.kit.ipd.sdq.kamp4bp.model.fieldofactivityannotations.BPFieldOfActivityAnnotationsFactory;
+import edu.kit.ipd.sdq.kamp4bp.model.fieldofactivityannotations.BPFieldOfActivityAnnotationsRepository;
+import edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.BPModificationRepository;
+import edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.BPModificationmarksFactory;
+import edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.BPSeedModifications;
+import edu.kit.ipd.sdq.kamp4is.core.ISArchitectureModelFactoryFacade;
 import edu.kit.ipd.sdq.kamp4is.model.fieldofactivityannotations.ISBuildSpecification;
 import edu.kit.ipd.sdq.kamp4is.model.fieldofactivityannotations.ISDeploymentSpecification;
 import edu.kit.ipd.sdq.kamp4is.model.fieldofactivityannotations.ISDevelopmentArtefactSpecification;
-import edu.kit.ipd.sdq.kamp4is.model.fieldofactivityannotations.ISFieldOfActivityAnnotationsRepository;
 import edu.kit.ipd.sdq.kamp4is.model.fieldofactivityannotations.ISFieldOfActivityAnnotationsFactory;
+import edu.kit.ipd.sdq.kamp4is.model.fieldofactivityannotations.ISFieldOfActivityAnnotationsRepository;
 import edu.kit.ipd.sdq.kamp4is.model.fieldofactivityannotations.ISReleaseSpecification;
 import edu.kit.ipd.sdq.kamp4is.model.fieldofactivityannotations.ISStaffSpecification;
 import edu.kit.ipd.sdq.kamp4is.model.fieldofactivityannotations.ISTestSpecification;
-import edu.kit.ipd.sdq.kamp4is.core.ISArchitectureModelFactoryFacade;
-import edu.kit.ipd.sdq.kamp4bp.model.fieldofactivityannotations.BPFieldOfActivityAnnotationsRepository;
-import edu.kit.ipd.sdq.kamp4bp.model.fieldofactivityannotations.BPFieldOfActivityAnnotationsFactory;
-import edu.kit.ipd.sdq.kamp4bp.model.fieldofactivityannotations.BPBusinessProcessSpecification;
-import edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.BPModificationRepository;
-import edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.BPSeedModifications;
-import edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.BPModificationmarksFactory;
 
 public class BPArchitectureModelFactoryFacade {
 
@@ -39,10 +39,11 @@ public class BPArchitectureModelFactoryFacade {
 		UsageModel usageModel = UsagemodelFactory.eINSTANCE.createUsageModel();
 		DataModel dataModel = DatamodelFactory.eINSTANCE.createDataModel();
 		OrganizationEnvironmentModel organizationEnvironmentModel = OrganizationenvironmentmodelFactory.eINSTANCE.createOrganizationEnvironmentModel();
+		
 		return new BPArchitectureVersion(name, repository, system, fieldOfActivityRepository, 
 				modificationMarkRepository, componentInternalDependencyRepository, 
 				Collections.singletonMap(BPArchitectureVersion.USAGEMODEL_DEFAULT_NAME, usageModel), 
-				dataModel, organizationEnvironmentModel);
+				dataModel, organizationEnvironmentModel, null);
 	}
 	
 	public static BPFieldOfActivityAnnotationsRepository createFieldOfActivityAnnotationsRepository() {

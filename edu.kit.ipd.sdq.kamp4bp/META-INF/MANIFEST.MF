@@ -22,5 +22,4 @@ Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: SDQ
 Export-Package: edu.kit.ipd.sdq.kamp4bp.core,
- edu.kit.ipd.sdq.kamp4bp.core.derivation,
- edu.kit.ipd.sdq.kamp4bp.ruledsl.support
+ edu.kit.ipd.sdq.kamp4bp.core.derivation
