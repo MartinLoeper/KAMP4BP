@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.system.System;
 import org.palladiosimulator.pcm.usagemodel.UsageModel;
@@ -37,6 +38,9 @@ public class BPArchitectureVersionPersistency extends AbstractISArchitectureVers
 	@Override
 	public BPArchitectureVersion load(String folderpath, String filename, String versionname) {
 		ResourceSet loadResourceSet = new ResourceSetImpl();
+		ECrossReferenceAdapter adapter = new ECrossReferenceAdapter();
+		loadResourceSet.eAdapters().add(adapter);
+		
 		String repositoryfilePath = filename + "."+FILEEXTENSION_REPOSITORY;
 		String systemfilePath = filename + "."+FILEEXTENSION_SYSTEM;
 		String fieldOfActivityRepositoryFilePath = filename + "."+FILEEXTENSION_FIELDOFACTIVITYANNOTATIONS;
@@ -64,12 +68,15 @@ public class BPArchitectureVersionPersistency extends AbstractISArchitectureVers
 		return new BPArchitectureVersion(versionname, repository, system, fieldOfActivityRepository, 
 				internalModificationMarkRepository, componentInternalDependencyRepository, 
 				Collections.singletonMap(BPArchitectureVersion.USAGEMODEL_DEFAULT_NAME, usageModel), 
-				dataModel, orgEnviromentModel);
+				dataModel, orgEnviromentModel, adapter);
 	}
 
 	@Override
 	public BPArchitectureVersion load(IContainer folder, String versionname) {
 		ResourceSet loadResourceSet = new ResourceSetImpl();	
+		ECrossReferenceAdapter adapter = new ECrossReferenceAdapter();
+		loadResourceSet.eAdapters().add(adapter);
+		
 		IFile repositoryfile = FileAndFolderManagement.retrieveFileWithExtension(folder, FILEEXTENSION_REPOSITORY);
 		IFile systemfile = FileAndFolderManagement.retrieveFileWithExtension(folder, FILEEXTENSION_SYSTEM);
 		IFile fieldOfActivityRepositoryFile = FileAndFolderManagement.retrieveFileWithExtension(folder, FILEEXTENSION_FIELDOFACTIVITYANNOTATIONS);
@@ -113,7 +120,7 @@ public class BPArchitectureVersionPersistency extends AbstractISArchitectureVers
 		
 		return new BPArchitectureVersion(versionname, repository, system, fieldOfActivityRepository, 
 				internalModificationMarkRepository, componentInternalDependencyRepository, usageModels, 
-				dataModel, organizationEnvironmentModel);
+				dataModel, organizationEnvironmentModel, adapter);
 	}
 	
 	@Override

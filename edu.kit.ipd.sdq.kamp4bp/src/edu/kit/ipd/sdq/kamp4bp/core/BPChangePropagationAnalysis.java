@@ -43,7 +43,7 @@ import edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.BPModifyActorStep;
 import edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.BPModifyDataObject;
 import edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.BPModifyEntryLevelSystemCall;
 import edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.BPModifyReleaseDeviceResourceAction;
-import edu.kit.ipd.sdq.kamp4bp.ruledsl.support.IRuleProvider;
+import edu.kit.ipd.sdq.kamp.ruledsl.support.IRuleProvider;
 
 /**
  * The change propagation analysis of KAMP+IntBIIS
@@ -67,6 +67,8 @@ public class BPChangePropagationAnalysis extends AbstractISChangePropagationAnal
 	
 	@Override
 	public void runChangePropagationAnalysis(BPArchitectureVersion version) {
+		this.prepareAnalysis(version);
+		
 		// this is the standard behavior if no custom rules are registered
 		boolean runStandardRules = true;
 		

@@ -2,6 +2,7 @@ package edu.kit.ipd.sdq.kamp4bp.core;
 
 import java.util.Map;
 
+import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.system.System;
 import org.palladiosimulator.pcm.usagemodel.UsageModel;
@@ -32,15 +33,17 @@ public class BPArchitectureVersion extends ISArchitectureVersion {
 	private Map<String, UsageModel> usageModels;
 	private DataModel dataModel;
 	private OrganizationEnvironmentModel organizationEnvironmentModel;
+	private final ECrossReferenceAdapter eCrossReferenceAdapter;
 
 	public BPArchitectureVersion(String name, Repository repository, System system,
 			ISFieldOfActivityAnnotationsRepository fieldOfActivityRepository,
 			AbstractISModificationRepository<?> modificationMarkRepository,
 			ComponentInternalDependencyRepository componentInternalDependencyRepository,
 			Map<String, UsageModel> usageModels, DataModel dataModel,
-			OrganizationEnvironmentModel organizationEnvironmentModel) {
+			OrganizationEnvironmentModel organizationEnvironmentModel, ECrossReferenceAdapter eCrossReferenceAdapter) {
 		super(name, repository, system, fieldOfActivityRepository, modificationMarkRepository,
 				componentInternalDependencyRepository);
+		this.eCrossReferenceAdapter = eCrossReferenceAdapter;
 		if (usageModels.isEmpty()) {
 			usageModels.put(USAGEMODEL_DEFAULT_NAME, UsagemodelFactory.eINSTANCE.createUsageModel());
 		}
@@ -54,6 +57,10 @@ public class BPArchitectureVersion extends ISArchitectureVersion {
 					.createOrganizationEnvironmentModel();
 		}
 		this.organizationEnvironmentModel = organizationEnvironmentModel;
+	}
+	
+	public ECrossReferenceAdapter getECrossReferenceAdapter() {
+		return this.eCrossReferenceAdapter;
 	}
 
 	public Map<String, UsageModel> getUsageModels() {
