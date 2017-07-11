@@ -1,5 +1,7 @@
 package edu.kit.ipd.sdq.kamp4bp.model.modificationmarks.editor;
 
+import org.eclipse.core.resources.IProject;
+
 import edu.kit.ipd.sdq.kamp.architecture.AbstractArchitectureVersionPersistency;
 import edu.kit.ipd.sdq.kamp.model.modificationmarks.editor.AbstractChangePropagationAction;
 import edu.kit.ipd.sdq.kamp.propagation.AbstractChangePropagationAnalysis;
@@ -14,7 +16,7 @@ public class BPChangePropagationAction extends AbstractChangePropagationAction<B
 	
 	@Override
 	protected AbstractChangePropagationAnalysis<BPArchitectureVersion> createChangePropagationAnalysis() {
-		return new BPChangePropagationAnalysis();
+		return new BPChangePropagationAnalysis(getProject());
 	}
 
 	@Override
