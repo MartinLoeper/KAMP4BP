@@ -27,6 +27,7 @@ import de.uhd.ifi.se.pcm.bppcm.organizationenvironmentmodel.Role;
 import edu.kit.ipd.sdq.kamp.architecture.ArchitectureModelLookup;
 import edu.kit.ipd.sdq.kamp.model.modificationmarks.AbstractModification;
 import edu.kit.ipd.sdq.kamp.ruledsl.support.KampRuleLanguageFacade;
+import edu.kit.ipd.sdq.kamp.ruledsl.support.ChangePropagationStepRegistry;
 import edu.kit.ipd.sdq.kamp.ruledsl.support.KampRuleLanguageFacade.KampLanguageService;
 import edu.kit.ipd.sdq.kamp4is.model.modificationmarks.ISModifyDataType;
 import edu.kit.ipd.sdq.kamp4is.model.modificationmarks.ISModifyInterface;
@@ -85,7 +86,16 @@ public class BPChangePropagationAnalysis extends AbstractISChangePropagationAnal
 		
 		try(KampLanguageService<IRuleProvider> languageService = KampRuleLanguageFacade.getInstance(this.project.getName(), IRuleProvider.class)) {
 			IRuleProvider provider = languageService.getService();
-			provider.applyAllRules(version, this);
+			
+			// specify the ChangePropagationSteps which will be passed to the ruledsl engine
+			ChangePropagationStepRegistry registry = KampRuleLanguageFacade.createChangePropagationStepRegistry();
+			registry.register(this.getChangePropagationDueToDataDependencies());
+			registry.register(this.getInterBusinessProcessPropagation());
+			
+			// you may register your own propagation steps via:
+			// version.getModificationMarkRepository().getChangePropagationSteps().add(...);, see an example in AbstractISChangePropagationAnalysis#calculateInterfaceAndComponentPropagation(S version)
+			
+			provider.applyAllRules(version, registry, this);
 			runStandardRules = provider.areStandardRulesEnabled();
 		} catch (Exception e) {
 			// should be only thrown if service is not available or bundle could not be installed
