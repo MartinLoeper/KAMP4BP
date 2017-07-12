@@ -13,6 +13,7 @@ import de.uhd.ifi.se.pcm.bppcm.datamodel.DatamodelFactory;
 import de.uhd.ifi.se.pcm.bppcm.organizationenvironmentmodel.OrganizationEnvironmentModel;
 import de.uhd.ifi.se.pcm.bppcm.organizationenvironmentmodel.OrganizationenvironmentmodelFactory;
 import de.uka.ipd.sdq.componentInternalDependencies.ComponentInternalDependencyRepository;
+import edu.kit.ipd.sdq.kamp.architecture.CrossReferenceProvider;
 import edu.kit.ipd.sdq.kamp4is.core.ISArchitectureVersion;
 import edu.kit.ipd.sdq.kamp4is.model.fieldofactivityannotations.ISFieldOfActivityAnnotationsRepository;
 import edu.kit.ipd.sdq.kamp4is.model.modificationmarks.AbstractISModificationRepository;
@@ -26,7 +27,7 @@ import edu.kit.ipd.sdq.kamp4is.model.modificationmarks.AbstractISModificationRep
  * (old files that do not have a KAMP+INTBIIS model, but a KAMP model, can be
  * still be processed).
  */
-public class BPArchitectureVersion extends ISArchitectureVersion {
+public class BPArchitectureVersion extends ISArchitectureVersion implements CrossReferenceProvider {
 
 	public static final String USAGEMODEL_DEFAULT_NAME = "default";
 
@@ -59,14 +60,7 @@ public class BPArchitectureVersion extends ISArchitectureVersion {
 		this.organizationEnvironmentModel = organizationEnvironmentModel;
 	}
 	
-	/**
-	 * Returns the cross reference adapter which is assigned to the underlying ResourceSet if available.
-	 * <br><br>
-	 * Caution! This method might return null.
-	 * This is the case if there is no underlying ResourceSet available such as in e.g. {@link BPArchitectureModelFactoryFacade#createEmptyBPModel(String)}.
-	 * 
-	 * @return the assigned cross reference adapter or null
-	 */
+	@Override
 	public ECrossReferenceAdapter getECrossReferenceAdapter() {
 		return this.eCrossReferenceAdapter;
 	}
