@@ -28,6 +28,8 @@ import edu.kit.ipd.sdq.kamp.architecture.ArchitectureModelLookup;
 import edu.kit.ipd.sdq.kamp.model.modificationmarks.AbstractModification;
 import edu.kit.ipd.sdq.kamp.ruledsl.support.KampRuleLanguageFacade;
 import edu.kit.ipd.sdq.kamp.ruledsl.support.ChangePropagationStepRegistry;
+import edu.kit.ipd.sdq.kamp.ruledsl.support.DefaultConfiguration;
+import edu.kit.ipd.sdq.kamp.ruledsl.support.IConfiguration;
 import edu.kit.ipd.sdq.kamp.ruledsl.support.KampRuleLanguageFacade.KampLanguageService;
 import edu.kit.ipd.sdq.kamp4is.model.modificationmarks.ISModifyDataType;
 import edu.kit.ipd.sdq.kamp4is.model.modificationmarks.ISModifyInterface;
@@ -82,10 +84,14 @@ public class BPChangePropagationAnalysis extends AbstractISChangePropagationAnal
 		this.prepareAnalysis(version);
 		
 		// this is the standard behavior if no custom rules are registered
-		boolean runStandardRules = true;
+		boolean runPreconfiguredRules = true;
 		
 		try(KampLanguageService<IRuleProvider> languageService = KampRuleLanguageFacade.getInstance(this.project.getName(), IRuleProvider.class)) {
 			IRuleProvider provider = languageService.getService();
+			IConfiguration config = provider.getConfiguration();
+			if(config == null) {
+				config = new DefaultConfiguration();
+			}
 			
 			// specify the ChangePropagationSteps which will be passed to the ruledsl engine
 			ChangePropagationStepRegistry registry = KampRuleLanguageFacade.createChangePropagationStepRegistry();
@@ -96,13 +102,13 @@ public class BPChangePropagationAnalysis extends AbstractISChangePropagationAnal
 			// version.getModificationMarkRepository().getChangePropagationSteps().add(...);, see an example in AbstractISChangePropagationAnalysis#calculateInterfaceAndComponentPropagation(S version)
 			
 			provider.applyAllRules(version, registry, this);
-			runStandardRules = provider.areStandardRulesEnabled();
+			runPreconfiguredRules = config.runPreconfiguredRules();
 		} catch (Exception e) {
 			// should be only thrown if service is not available or bundle could not be installed
 			e.printStackTrace();
 		};
 
-		if(runStandardRules) {
+		if(runPreconfiguredRules) {
 			this.calculateChangePropagationDueToDataDependencies(version);	
 			this.calculateInterfaceAndComponentPropagation(version);
 			this.calculateInterBusinessProcessPropagation(version);
