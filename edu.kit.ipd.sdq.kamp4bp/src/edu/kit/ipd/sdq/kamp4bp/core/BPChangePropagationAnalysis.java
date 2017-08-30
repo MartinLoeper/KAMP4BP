@@ -95,13 +95,16 @@ public class BPChangePropagationAnalysis extends AbstractISChangePropagationAnal
 			
 			// specify the ChangePropagationSteps which will be passed to the ruledsl engine
 			ChangePropagationStepRegistry registry = KampRuleLanguageFacade.createChangePropagationStepRegistry();
-			registry.register(this.getChangePropagationDueToDataDependencies());
-			registry.register(this.getInterBusinessProcessPropagation());
+			
+//			registry.register(this.getChangePropagationDueToDataDependencies());
+//			registry.register(this.getInterBusinessProcessPropagation());
+			// better (but keep in mind that prepareAnalysis must be run beforehand):
+			version.getModificationMarkRepository().getChangePropagationSteps().stream().forEach(s -> registry.register(s));
 			
 			// you may register your own propagation steps via:
 			// version.getModificationMarkRepository().getChangePropagationSteps().add(...);, see an example in AbstractISChangePropagationAnalysis#calculateInterfaceAndComponentPropagation(S version)
 			
-			provider.applyAllRules(version, registry, this);
+			provider.applyAllRules(version, registry);
 			runPreconfiguredRules = config.runPreconfiguredRules();
 		} catch (Exception e) {
 			// should be only thrown if service is not available or bundle could not be installed
@@ -184,6 +187,7 @@ public class BPChangePropagationAnalysis extends AbstractISChangePropagationAnal
 		// 3 DeviceResource -> Acquire-/ReleaseDeviceResourceAction and actions between
 		calculateAndMarkDeviceResourceToDeviceResourceActionPropagation(version, elementsMarkedInThisStep);
 		// 4 Signature -> EntryLevelSystemCall
+		// TODO replace by KAMP DSL
 		calculateAndMarkSignatureToEntryLevelSystemCallPropagation(version, elementsMarkedInThisStep);
 		
 		//If no at all changes: remove top-level element from tree
