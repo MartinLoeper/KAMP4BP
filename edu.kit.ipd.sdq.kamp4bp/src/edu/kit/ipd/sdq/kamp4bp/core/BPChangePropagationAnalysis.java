@@ -93,6 +93,9 @@ public class BPChangePropagationAnalysis extends AbstractISChangePropagationAnal
 				config = new DefaultConfiguration();
 			}
 			
+			// read configuration
+			runPreconfiguredRules = config.areKampStandardRulesEnabled();
+			
 			// specify the ChangePropagationSteps which will be passed to the ruledsl engine
 			ChangePropagationStepRegistry registry = KampRuleLanguageFacade.createChangePropagationStepRegistry();
 			
@@ -104,8 +107,9 @@ public class BPChangePropagationAnalysis extends AbstractISChangePropagationAnal
 			// you may register your own propagation steps via:
 			// version.getModificationMarkRepository().getChangePropagationSteps().add(...);, see an example in AbstractISChangePropagationAnalysis#calculateInterfaceAndComponentPropagation(S version)
 			
-			provider.applyAllRules(version, registry);
-			runPreconfiguredRules = config.runPreconfiguredRules();
+			if(config.isKampDslEnabled()) {
+				provider.applyAllRules(version, registry);
+			}
 		} catch (Exception e) {
 			// should be only thrown if service is not available or bundle could not be installed
 			e.printStackTrace();
@@ -113,7 +117,7 @@ public class BPChangePropagationAnalysis extends AbstractISChangePropagationAnal
 
 		if(runPreconfiguredRules) {
 			this.calculateChangePropagationDueToDataDependencies(version);	
-			this.calculateInterfaceAndComponentPropagation(version);
+			//this.calculateInterfaceAndComponentPropagation(version);
 			this.calculateInterBusinessProcessPropagation(version);
 		}
 	}
@@ -148,22 +152,22 @@ public class BPChangePropagationAnalysis extends AbstractISChangePropagationAnal
 		Map<EObject, AbstractModification<?,EObject>> elementsMarkedInThisStep = 
 				new HashMap<EObject, AbstractModification<?,EObject>>();
 		
-		// 1 DataType -> Composite/CollectionDataType
-		calculateAndMarkDataTypeToDataTypePropagation(version, elementsMarkedInThisStep);		
-		// 2 DataType -> DataObject
-		calculateAndMarkDataTypeToDataObjectPropagation(version, elementsMarkedInThisStep);	
-		// 3 DataObject -> Composite/CollectionDataObject
-		calculateAndMarkDataObjectToDataObjectPropagation(version, elementsMarkedInThisStep);
-		// 4 DataObject -> ActorStep
-		calculateAndMarkDataObjectToActorStepPropagation(version);	
-		// 5 DataObject -> DataType
-		calculateAndMarkDataObjectToDataTypePropagation(version, elementsMarkedInThisStep);	
-		// 6 DataType -> Composite/CollectionDataType
-		calculateAndMarkDataTypeToDataTypePropagation(version, elementsMarkedInThisStep);	
+//		// 1 DataType -> Composite/CollectionDataType
+//		calculateAndMarkDataTypeToDataTypePropagation(version, elementsMarkedInThisStep);		
+//		// 2 DataType -> DataObject
+//		calculateAndMarkDataTypeToDataObjectPropagation(version, elementsMarkedInThisStep);	
+//		// 3 DataObject -> Composite/CollectionDataObject
+//		calculateAndMarkDataObjectToDataObjectPropagation(version, elementsMarkedInThisStep);
+//		// 4 DataObject -> ActorStep
+//		calculateAndMarkDataObjectToActorStepPropagation(version);	
+//		// 5 DataObject -> DataType
+//		calculateAndMarkDataObjectToDataTypePropagation(version, elementsMarkedInThisStep);	
+//		// 6 DataType -> Composite/CollectionDataType
+//		calculateAndMarkDataTypeToDataTypePropagation(version, elementsMarkedInThisStep);	
 		// 7 DataType -> EntryLevelSystemCall
 		calculateAndMarkDataTypeToEntryLevelSystemCallPropagation(version);	
-		// 8 DataType/EntryLevelSystemCall/Signature -> Interface
-		calculateAndMarkToInterfacePropagation(version);
+//		// 8 DataType/EntryLevelSystemCall/Signature -> Interface
+//		calculateAndMarkToInterfacePropagation(version);
 		
 		//If no at all changes: remove top-level element from tree
 		if (this.getChangePropagationDueToDataDependencies().eContents().isEmpty()) {			
@@ -180,14 +184,13 @@ public class BPChangePropagationAnalysis extends AbstractISChangePropagationAnal
 		Map<EObject, AbstractModification<?,EObject>> elementsMarkedInThisStep = 
 				new HashMap<EObject, AbstractModification<?,EObject>>();
 		
-		// 1 Role (OrganizationEnvironmentModel) -> ActorStep
-		calculateAndMarkRoleToActorStepPropagation(version, elementsMarkedInThisStep);
-		// 2 ActorStep -> ActorStep/EntryLevelSystemCall
-		calculateAndMarkActorStepToActorStepAndELSCPropagation(version, elementsMarkedInThisStep);
-		// 3 DeviceResource -> Acquire-/ReleaseDeviceResourceAction and actions between
-		calculateAndMarkDeviceResourceToDeviceResourceActionPropagation(version, elementsMarkedInThisStep);
+//		// 1 Role (OrganizationEnvironmentModel) -> ActorStep
+//		calculateAndMarkRoleToActorStepPropagation(version, elementsMarkedInThisStep);
+//		// 2 ActorStep -> ActorStep/EntryLevelSystemCall
+//		calculateAndMarkActorStepToActorStepAndELSCPropagation(version, elementsMarkedInThisStep);
+//		// 3 DeviceResource -> Acquire-/ReleaseDeviceResourceAction and actions between
+//		calculateAndMarkDeviceResourceToDeviceResourceActionPropagation(version, elementsMarkedInThisStep);
 		// 4 Signature -> EntryLevelSystemCall
-		// TODO replace by KAMP DSL
 		calculateAndMarkSignatureToEntryLevelSystemCallPropagation(version, elementsMarkedInThisStep);
 		
 		//If no at all changes: remove top-level element from tree
