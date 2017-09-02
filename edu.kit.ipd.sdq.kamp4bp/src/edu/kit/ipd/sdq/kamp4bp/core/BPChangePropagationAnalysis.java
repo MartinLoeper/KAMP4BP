@@ -163,7 +163,7 @@ public class BPChangePropagationAnalysis extends AbstractISChangePropagationAnal
 //		// 5 DataObject -> DataType
 //		calculateAndMarkDataObjectToDataTypePropagation(version, elementsMarkedInThisStep);	
 //		// 6 DataType -> Composite/CollectionDataType
-//		calculateAndMarkDataTypeToDataTypePropagation(version, elementsMarkedInThisStep);	
+		// calculateAndMarkDataTypeToDataTypePropagation(version, elementsMarkedInThisStep);	
 		// 7 DataType -> EntryLevelSystemCall
 		calculateAndMarkDataTypeToEntryLevelSystemCallPropagation(version);	
 //		// 8 DataType/EntryLevelSystemCall/Signature -> Interface
